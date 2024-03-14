@@ -136,6 +136,30 @@
             background-color: #f44336;
             /* More vibrant red */
         }
+        @media only screen and (max-width: 768px) {
+  /* Styles for screens less than 768px wide */
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 20px;
+  }
+  .image-item {
+    width: calc(100% - 20px); /* Account for grid gap */
+  }
+  /* Add more styles for smaller screens as needed */
+}
+
+@media only screen and (max-width: 480px) {
+  /* Styles for screens less than 480px wide */
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+  .image-item {
+    width: 100%;
+  }
+  /* Add more styles for very small screens */
+}
+
     </style>
 </head>
 

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foods</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            /* Light grey background for contrast */
+            margin: 0;
+            padding: 0;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+            justify-content: center;
+            /* Center grid in the page */
+        }
+
+        .image-item {
+            position: relative;
+            border: 1px solid #ddd;
+            height: 350px;
+            width: 300px;
+            border-radius: 15px;
+            /* Rounded corners for the image container */
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+            transition: transform 0.3s ease;
+            /* Smooth transform on hover */
+        }
+
+        .image-item:hover {
+            transform: scale(1.03);
+            /* Slight increase in size on hover */
+        }
+
+        .image-item img {
+            width: 100%;
+            /* Make images fully responsive within container */
+            height: 200px;
+            /* Fixed height for uniformity */
+            object-fit: cover;
+            /* Ensure images cover the space nicely */
+            border-radius: 15px 15px 0 0;
+            /* Rounded corners at the top */
+        }
+
+        .select-button {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            font-size: large;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            /* Smooth background transition */
+        }
+
+        .select-button:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+
+        p {
+            margin: 20px 0 10px;
+            /* Adjust spacing */
+            text-align: center;
+            font-size: large;
+            font-weight: bold;
+            color: #333;
+            /* Darker text for better readability */
+        }
+
+        .selected-food {
+            margin: 15px;
+            text-align: center;
+            display: inline-block;
+            width: 150px;
+            padding: 20px;
+            border: 1px solid #bbb;
+            /* Lighter border for a softer look */
+            border-radius: 10px;
+            /* Rounded corners */
+            background-color: #fff;
+            /* White background for contrast */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Consistent shadow with image items */
+        }
+
+        .btn__submit {
+            display: block;
+            /* Ensure it doesn't align inline */
+            margin: 40px auto;
+            /* Center the button */
+            border: none;
+            border-radius: 30px;
+            background-color: #333;
+            /* Darker button for contrast */
+            color: white;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            /* Smooth background transition */
+        }
+
+        .btn__submit:hover {
+            background-color: #007bff;
+            /* Brand color for hover state */
+        }
+
+        .good-food,
+        .bad-food {
+            transition: background-color 0.3s ease;
+            /* Smooth background transition for food categories */
+        }
+
+        .good-food {
+            background-color: #4CAF50;
+            /* More vibrant green */
+        }
+
+        .bad-food {
+            background-color: #f44336;
+            /* More vibrant red */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image-grid">
+        <div class="image-item" id="food1">
+            <img src="s1.jpg" alt="Chicken Briyani" />
+            <p>Chicken Briyani</p>
+            <button class="select-button" onclick="selectFood('Chicken Briyani')">Select</button>
+        </div>
+        <div class="image-item" id="food2">
+            <img src="s2.jpeg" alt="Veg Meals" />
+            <p>Veg Meals</p>
+            <button class="select-button" onclick="selectFood('Veg Meals')">Select</button>
+        </div>
+        <div class="image-item" id="food3">
+            <img src="s3.jpeg" alt="Veg Pizza" />
+            <p>Veg Pizza</p>
+            <button class="select-button" onclick="selectFood('Veg Pizza')">Select</button>
+        </div>
+        <div class="image-item" id="food4">
+            <img src="s4.webp" alt="French Fries" />
+            <p>French Fries</p>
+            <button class="select-button" onclick="selectFood('French Fries')">Select</button>
+        </div>
+        <div class="image-item" id="food5">
+            <img src="s5.jpeg" alt="Chicken Wings" />
+            <p>Chicken Wings</p>
+            <button class="select-button" onclick="selectFood('Chicken Wings')">Select</button>
+        </div>
+        <div class="image-item" id="food6">
+            <img src="s6.avif" alt="Parotta" />
+            <p>Parotta</p>
+            <button class="select-button" onclick="selectFood('Parotta')">Select</button>
+        </div>
+    </div>
+
+    <div id="selected-foods-container" style="font-size: larger; font-weight: bold"></div>
+    <button class="btn__submit" onclick="submitSelection()">Submit</button>
+
+    <script>
+        function selectFood(foodName) {
+            var selectedFoodsContainer = document.getElementById("selected-foods-container");
+            var selectedFoodElement = document.createElement("div");
+            selectedFoodElement.classList.add("selected-food");
+            selectedFoodElement.textContent = foodName;
+            selectedFoodsContainer.appendChild(selectedFoodElement);
+        }
+
+        function submitSelection() {
+            var selectedFoodsContainer = document.getElementById("selected-foods-container");
+            var selectedFoods = selectedFoodsContainer.querySelectorAll(".selected-food");
+
+            selectedFoods.forEach(function (selectedFood) {
+                var foodName = selectedFood.textContent.trim();
+                if (isGoodFood(foodName)) {
+                    selectedFood.classList.add("good-food");
+                } else if (isBadFood(foodName)) {
+                    selectedFood.classList.add("bad-food");
+                }
+            });
+        }
+
+        function isGoodFood(foodName) {
+            var goodFoods = ["Chicken Briyani", "Veg Meals", "Veg Pizza", "Parotta"];
+            return goodFoods.includes(foodName);
+        }
+
+        function isBadFood(foodName) {
+            var badFoods = ["French Fries", "Chicken Wings"];
+            return badFoods.includes(foodName);
+        }
+    </script>
+</body>
+
+</html>
